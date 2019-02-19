@@ -1,0 +1,139 @@
+\documentclass[12pt]{article}
+ \usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amsthm,amssymb,amsfonts,algorithm,algpseudocode,algorithmicx,xfrac}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+
+\newenvironment{problem}[2][Problem]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{subproblem}[1]{\textbf{(#1)}}{}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+%If you want to title your bold things something different just make another thing exactly like this but replace "problem" with the name of the thing you want, like theorem or lemma or whatever
+
+\begin{document}
+
+%\renewcommand{\qedsymbol}{\filledbox}
+%Good resources for looking up how to do stuff:
+%Binary operators: http://www.access2science.com/latex/Binary.html
+%General help: http://en.wikibooks.org/wiki/LaTeX/Mathematics
+%Or just google stuff
+
+\title{Data Mining - Homework 1}
+\author{Howie Benefiel \(phb337\)}
+\maketitle
+
+\begin{problem}{1}
+$ $ \newline
+
+\begin{subproblem}{a}
+We start by calculating the sample standard deviation, $ \sigma_x = \frac{sigma}{\sqrt{n}} = \frac{1}{\sqrt{10000}} = 1e^{-2}  $ .
+We then calculate the z-value, $ z=\frac{\bar{x} - \mu}{\sigma_x} = \frac{.1}{1e^{-2}} = 10 $ .
+By consulting the Z table, we see that the probability that $ z_{avg} > .1 $ is basically non-existant, it is less than $ .000001 $ .
+
+Reparing this process for .01, we get a z-score of 1.
+This corresponds to a 15.86\% chance of $ z_{avg} > .01 $ .
+
+Finally, we see that $ P(z_{avg} > .001) = .4602 $ .
+\end{subproblem}
+
+\begin{subproblem}{b}
+For the general case, we use the cumulative distrbution function formula as follows:
+
+\begin{align}
+\Phi(z) = \frac{1}{2} \lbrack 1 + erf(\frac{z}{\sqrt{2}}) \rbrack
+\end{align}
+
+We can then substitute in the formula for z to get:
+
+\begin{align}
+\Phi(\frac{\bar{x} - \mu}{\frac{\sigma}{\sqrt{n}}}) = \frac{1}{2} \lbrack 1 + erf(\frac{\frac{\bar{x} - \mu}{\frac{\sigma}{\sqrt{n}}}}{\sqrt{2}}) \rbrack =  \frac{1}{2} \lbrack 1 + erf(\frac{\bar{x} - \mu}{\sqrt{2}\sqrt{n}\sigma}) \rbrack
+\end{align}
+
+Finally, to get the probability that $ z_{avg} $ is greater than some number we must subtract that formula from 1.
+
+\begin{align}
+\Phi{z} = .5 - erf(\frac{\bar{x} - \mu}{\sqrt{2}\sqrt{n}\sigma})
+\end{align}
+
+We can then plug in $ z_{avg} $ , $ \mu $ , and $ n $ .
+
+\end{subproblem}
+
+\end{problem}
+
+
+
+\begin{problem}{2}
+$ $\newline
+\begin{subproblem}{a}
+We multiply out the operand of the sum to get
+
+\begin{align}
+\frac{1}{n} \sum^n_{i=1} x_i^2\beta^2 - 2x_iy_i\beta + y_i^2
+\end{align}
+
+Since $ n $ , $ x_i $ , $ y_i $ are constants, we get
+
+\begin{align*}
+\min_{\beta} : A\beta^2 + B\beta + C \\
+\end{align*}
+where
+\begin{align*}
+A=\sum^n_{i=1} \frac{x_i^2}{n} \\
+B=\sum^n_{i=1} \frac{-2x_iy_i}{n}\\
+C=\sum^n_{i=1} \frac{y_i^2}{n}
+\end{align*}
+\end{subproblem}
+
+
+
+\begin{subproblem}{b}
+From above, $ \displaystyle A=\sum^n_{i=1} \frac{x_i^2}{n} $ .
+$ n > 0 $ because there are a strictly positive number of data points and $ x_i^2 $ is always positive because any number squared is positive.
+\end{subproblem}
+
+
+\begin{subproblem}{c}
+\begin{align*}
+\min_{\beta} : A\beta^2 + B\beta + C  \Longleftrightarrow 0 = \frac{d}{d\hat{\beta}} (A\hat{\beta}^2 + B\hat{\beta} + C) \\
+0 = \frac{d}{d\hat{\beta}} A\hat{\beta}^2 + B\hat{\beta} + C  \Longleftrightarrow 0 = 2A\hat{\beta} + B \\
+\hat{\beta} = \frac{-B}{2A} \Longleftrightarrow \hat{\beta} = \frac{\sum^n_{x=1}x_iy_i}{\sum^n_{i=1}x_i^2}
+\end{align*}
+\end{subproblem}
+
+\begin{subproblem}{d}
+
+\begin{align*}
+\hat{\beta} =\frac{\sum x_iy_i}{\sum{x_i^2}}
+\end{align*}
+
+We then sub in $ y_i = \beta x_i +e_i $
+
+\begin{align*}
+\hat{\beta} = \frac{\sum^n_{i=1} x_i (x_i\beta + e_i)}{\sum^n_{i=1} x_i^2} \Leftrightarrow \\
+\hat{\beta} = \frac{\beta\sum^n_{i=1} x_i^2 + \sum^n_{i=1} x_ie_i}{\sum^n_{i=1} x_i^2} \Leftrightarrow \\
+\hat{\beta} = \beta + \frac{\sum^n_{i=1} x_i e_i}{\sum^n_{i=1} x_i^2} \Rightarrow \\
+\boldsymbol{Z} =
+\begin{bmatrix}
+    \frac{x_1}{\sum^n_{i=1} x_i^2} \\
+    \frac{x_2}{\sum^n_{i=1} x_i^2} \\
+    \vdots \\
+    \frac{x_n}{\sum^n_{i=1} x_i^2} \\
+\end{bmatrix}
+\end{align*}
+\end{subproblem}
+
+
+\end{problem}
+
+
+
+
+\end{document}

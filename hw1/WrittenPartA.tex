@@ -1,0 +1,123 @@
+\documentclass[12pt]{article}
+ \usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amsthm,amssymb,amsfonts,algorithm,algpseudocode,algorithmicx,xfrac}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+
+\newenvironment{problem}[2][Problem]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{subproblem}[1]{\textbf{(#1)}}{}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+%If you want to title your bold things something different just make another thing exactly like this but replace "problem" with the name of the thing you want, like theorem or lemma or whatever
+
+\begin{document}
+
+%\renewcommand{\qedsymbol}{\filledbox}
+%Good resources for looking up how to do stuff:
+%Binary operators: http://www.access2science.com/latex/Binary.html
+%General help: http://en.wikibooks.org/wiki/LaTeX/Mathematics
+%Or just google stuff
+
+\title{Data Mining - Homework 1}
+\author{Howie Benefiel \(phb337\)}
+\maketitle
+
+\begin{problem}{1}
+$ $ \newline
+
+\begin{subproblem}{a}
+The probability that $ X = 1 $ is $ \sfrac{1}{4} + \sfrac{1}{3} = \sfrac{7}{12} $ .
+
+\end{subproblem}
+
+\begin{subproblem}{b}
+The probability that $ X = 1 $ conditioned on $ Y = 1 $ is $ \displaystyle \frac{\sfrac{1}{3}}{\sfrac{1}{2}} = \sfrac{2}{3} $ .
+
+\end{subproblem}
+
+\begin{subproblem}{c}
+The variance of $ X $ is $ E[X^2] - E[X] ^ 2 $ .
+Breaking it down:
+
+\begin{align*}
+E \lbrack X \rbrack = (\sfrac{1}{4} + \sfrac{1}{6}) \cdot 0  + (\sfrac{1}{4} + \sfrac{1}{3}) \cdot 1 = \sfrac{7}{12} \\
+E \lbrack X ^ 2 \rbrack = (\sfrac{1}{4} + \sfrac{1}{6}) \cdot 0 ^ 2 + (\sfrac{1}{4} + \sfrac{1}{3}) \cdot 1 ^ 2 = \sfrac{7}{12} \\
+\end{align*}
+
+So $ \displaystyle Var(X) = \sfrac{7}{12} - \sfrac{7}{12} ^ 2 = \sfrac{49}{144} $ .
+
+
+\end{subproblem}
+
+\begin{subproblem}{d}
+
+The variance of $ X $ conditioned on $ Y = 1 $ is $ E[X ^ 2 | Y=1] - E[X | Y=1] ^ 2 $ .
+
+\begin{align*}
+E \lbrack X|Y=1 \rbrack = \sum^1_{x=0} x \cdot \frac{P(X=x\, Y=1)}{P(Y=1)} \\
+E \lbrack X|Y=1 \rbrack = 0 \cdot \frac{\sfrac{1}{4}}{\sfrac{1}{2}} + 1 \cdot \frac{\sfrac{1}{4}}{\sfrac{1}{2}} = \sfrac{1}{8}
+\end{align*}
+and
+\begin{align*}
+E \lbrack X^2|Y=1 \rbrack = \sum^1_{x=0} x^2 \cdot \frac{P(X=x\, Y=1)}{P(Y=1)}\\
+E \lbrack X^2|Y=1 \rbrack = 0^2 \cdot \frac{\sfrac{1}{4}}{\sfrac{1}{2}} + 1^2 \cdot \frac{\sfrac{1}{4}}{\sfrac{1}{2}} = \sfrac{1}{8}
+\end{align*}
+
+So, the variance is $ \displaystyle \sfrac{1}{8} - \sfrac{1}{8} ^ 2 = \sfrac{7}{64} $
+
+\end{subproblem}
+
+\begin{subproblem}{e}
+
+\begin{align*}
+E \lbrack X^3 + X^2 + 3Y^7 | Y = 1 \rbrack = E \lbrack X^3 | Y=1 \rbrack + E \lbrack X^2 | Y=1  \rbrack + 3 \cdot E \lbrack Y^7 | Y=1  \rbrack
+\end{align*}
+
+Since $ 0^2 = 0 $ and $ 1^2 =1 $ , much of the math from the previous section stays the same resulting in:
+
+\begin{align*}
+E \lbrack X^3 | Y=1 \rbrack = \sfrac{1}{8} \\
+E \lbrack X^2 | Y=1  \rbrack = \sfrac{1}{8}
+\end{align*}
+
+Finally, $ \cdot E \lbrack Y^7 | Y=1  \rbrack $ is just the conditional expectation of $ Y = 1 $ which is $ \sfrac{1}{2} $ .
+That means $  3 \cdot E \lbrack Y^7 | Y=1  \rbrack = \sfrac{3}{2} $ .
+
+Putting it all together, $  E \lbrack X^3 + X^2 + 3Y^7 | Y = 1 \rbrack = 1.75 $ .
+
+
+\end{subproblem}
+\end{problem}
+
+\begin{problem}{2}
+The projection of vector $ \vec{x} $ onto some subspace $ \textbf{V} $ is given by:
+
+\begin{align}
+\text{Proj}_V(\vec{x}) = \boldsymbol{A}(\boldsymbol{A^T}\boldsymbol{A})^{-1}\boldsymbol{A}^T\vec{x}
+\end{align}
+
+Using numpy, we get $ \text{Proj}_V(\vec{P_1}) = [3,3,3] $ , $ \text{Proj}_V(\vec{P_2}) = [1,2.5,2.5] $ , and $ \text{Proj}_V(\vec{P_3}) = [0,.5,.5] $
+
+\end{problem}
+
+\begin{problem}{3}
+Because we are looking for the probability that there at most 50 heads, we should use the binomial cumulative distribution function.
+This particular problem is expressed as
+\begin{align*}
+Pr(X\leq50) = \sum^{50}_{i=0} \binom{100}{i}(\frac{2}{3})^i(\frac{1}{3})^{100-i}
+\end{align*}
+
+We can then use scipy's binomial cumulative distribution function to calculate this.
+This outputs a .04\% chance.
+\end{problem}
+
+
+
+\end{document}
